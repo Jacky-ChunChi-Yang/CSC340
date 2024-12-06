@@ -173,7 +173,7 @@ public:
             cout << "Invalid month! Please enter a month between 1 and 12." << endl;
             return;
         }
-        
+
         MonthNode* monthNode = getMonthNode(month - 1);
         cout << "Calendar for " << year << " - " << monthNode->monthName << ":\n";
         cout << "Su  Mo  Tu  We  Th  Fr  Sa\n";
@@ -217,7 +217,7 @@ int main() {
     cout << "Enter the year for your calendar: ";
     cin >> year;
     Calendar calendar(year);
-    
+
     while (true) {
         cout << "Choose an action: (1) Add Event (2) Search Event (3) Display Month (4) Exit\n";
         int action;
@@ -245,7 +245,7 @@ int main() {
                 cin.ignore();
                 getline(cin, extra);
                 calendar.addEvent(make_shared<PersonalEvent>(name, date, time, extra));
-            } 
+            }
             break;
         }
         case SEARCH_EVENT: {
