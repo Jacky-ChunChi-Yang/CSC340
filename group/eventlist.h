@@ -11,6 +11,7 @@ class EventList : public LinkedList<Event> {
 
     public:
         EventList(const std::string &name);
+        void displayEvents();
         Node<Event>* findEvent(const std::string &name);
         void deleteEvent(const string &eventName);
         std::string getName() const;

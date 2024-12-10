@@ -6,6 +6,7 @@
 using namespace std;
 
 enum MainMenu { QUIT,
+                DISPLAY_EVENTS,
                 CHANGE_YEAR,
                 CHANGE_MONTH,
                 ADD_EVENT,
@@ -39,6 +40,7 @@ void Calendar::menu() {
     int input;
 
     cout << "Options: " << endl
+         << DISPLAY_EVENTS << ") Display All Events" << endl
          << CHANGE_YEAR << ") Change Year Viewed" << endl
          << CHANGE_MONTH << ") Change Month Viewed" << endl
          << ADD_EVENT << ") Add Event" << endl
@@ -60,20 +62,22 @@ void Calendar::menu() {
         case QUIT:
             cout << "Thank you! Bye!" << endl;
             return;
+        case DISPLAY_EVENTS:
+            this->displayEvents();
         case CHANGE_YEAR:
-            changeYear();
+            this->changeYear();
             break;
         case CHANGE_MONTH:
-            changeMonth();
+            this->changeMonth();
             break;
         case ADD_EVENT:
-            addEvent();
+            this->addEvent();
             break;
         case DELETE_EVENT:
-            deleteEvent();
+            this->deleteEvent();
             break;
         case EDIT_EVENT:
-            editEvent();
+            this->editEvent();
             break;
         case SORT_EVENTS:
             this->getOpenList()->mergeSort();
@@ -203,6 +207,10 @@ void Calendar::displayMonth() const {
         if ((startDay + day) % 7 == 0) cout << endl;
     }
     cout << endl << endl;
+}
+
+void Calendar::displayEvents() {
+    this->getOpenList()->displayEvents();
 }
 
 string getMonthName(const int month) {

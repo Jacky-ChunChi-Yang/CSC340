@@ -29,6 +29,7 @@ class Calendar {
         void setMonth(const int &newMonth);
         void setOpenList(EventList* newList);
         void displayMonth() const;
+        void displayEvents();
         void changeYear();
         void changeMonth();
         void addEvent();
