@@ -3,9 +3,10 @@
 
 #include <string>
 #include <ctime>
+#include <iostream>
 
 class Event {
-    protected:
+    private:
         std::string eventName;
         struct tm datetime;
     public:
@@ -29,12 +30,12 @@ class PersonalEvent : public Event {
         void setLocation(const std::string &newLocation);
 };
 
-class MeetingEvent {
+class MeetingEvent : public Event {
     private:
         std::string attendee;
     public:
         MeetingEvent(std::string eventName, struct tm datetime, std::string attendee);
-        void printEvent();
+        void printEvent() const;
         std::string getAttendee() const;
         void setAttendee(const std::string &newAttendee);
 };
@@ -46,7 +47,7 @@ bool operator>(Event lhs, Event rhs);
 bool operator<=(Event lhs, Event rhs);
 bool operator>=(Event lhs, Event rhs);
 
-bool operator==(Event lhs, Event rhs);
+bool operator==(Event lhs, struct tm rhs);
 bool operator!=(Event lhs, struct tm rhs);
 bool operator<(Event lhs, struct tm rhs);
 bool operator>(Event lhs, struct tm rhs);
@@ -60,4 +61,6 @@ bool operator>(struct tm lhs, Event rhs);
 bool operator<=(struct tm lhs, Event rhs);
 bool operator>=(struct tm lhs, Event rhs);
 
-#endif EVENT
+#include "event.cpp"
+
+#endif

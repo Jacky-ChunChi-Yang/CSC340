@@ -15,7 +15,7 @@ LinkedList<T>::~LinkedList() {
     if (current) {
        while (current->getNext()) {
            current = current->getNext();
-           delete current->getPrevious();
+           delete current->getPrev();
        }
        delete current;
     }
@@ -42,7 +42,7 @@ void LinkedList<T>::setHead(Node<T>* newHead) {
 }
 
 template <typename T>
-void LinkedList<T>::setTail(Node<T>* newHead) {
+void LinkedList<T>::setTail(Node<T>* newTail) {
     this->tail = newTail;
 }
 
@@ -52,12 +52,27 @@ void LinkedList<T>::setSize(const int &newSize) {
 }
 
 template <typename T>
+void LinkedList<T>::push_back(const T& data) {
+    if (this->getSize() > 0) {
+        this->getTail()->setNext(new Node<T>(data));
+        this->getTail()->getNext()->setPrev(getTail());
+        this->setTail(this->getTail()->getNext());
+        this->setSize(this->getSize() + 1);
+    }
+    else {
+        this->setHead(new Node<T>(data));
+        this->setTail(this->getHead());
+        this->setSize(1);
+    }
+}
+
+template <typename T>
 void LinkedList<T>::push_back(Node<T>* newNode) {
     if (this->getSize() > 0) {
         this->getTail()->setNext(newNode);
-        newNode->setPrevious(this->getTail());
+        newNode->setPrev(this->getTail());
         this->setTail(newNode);
-        this->setSize(this->getSize++);
+        this->setSize(this->getSize() + 1);
     }
     else {
         this->setHead(newNode);
@@ -69,12 +84,51 @@ void LinkedList<T>::push_back(Node<T>* newNode) {
 template <typename T>
 void LinkedList<T>::operator+=(LinkedList<T> &rhs) {
     this->getTail()->setNext(rhs.getHead());
-    rhs.getHead()->setPrevious(this->getTail());
+    rhs.getHead()->setPrev(this->getTail());
     this->setTail(rhs.getTail());
-    this->setCount(this->getSize()+rhs.getSize());
+    this->setSize(this->getSize() + rhs.getSize());
     rhs.setTail(nullptr);
     rhs.setHead(nullptr);
-    rhs.setCount(0);
+    rhs.setSize(0);
+}
+
+template <typename T>
+Node<T>* LinkedList<T>::insert_before(T newData, Node<T>* knownNode) {
+    if (!knownNode) {
+        this->push_back(newData);
+        return this->getTail();
+    }
+    else {
+        Node<T>* newNode = new Node<T>(newData);
+
+        if (knownNode->getPrev()) {
+            newNode->setPrev(knownNode->getPrev());
+            newNode->getPrev()->setNext(newNode);
+        }
+        else {
+            this->setHead(newNode);
+        }
+        newNode->setNext(knownNode);
+        knownNode->setPrev(newNode);
+
+        this->setSize(this->getSize() + 1);
+        return newNode;
+    }
+}
+
+template <typename T>
+void LinkedList<T>::insert_before(Node<T>* newPrev, Node<T>* baseNode) {
+    if (baseNode->getPrev()) {
+        newPrev->setPrev(baseNode->getPrev());
+        newPrev->getPrev()->setNext(newPrev);
+    }
+    else {
+        this->setHead(newPrev);
+    }
+    newPrev->setNext(baseNode);
+    baseNode->setPrev(newPrev);
+
+    this->setSize(this->getSize() + 1);
 }
 
 template <typename T>
@@ -88,7 +142,7 @@ void LinkedList<T>::merge(LinkedList<T>* listB) {
             tempPtr = listB->getHead()->getNext();
             delete listB->getHead();
             listB->setHead(tempPtr);
-            listB->setSize(listB->getSize--);
+            listB->setSize(listB->getSize() - 1);
         }
         else if (*movePtr < *listB->getHead()) {
             movePtr = movePtr->getNext();
@@ -97,7 +151,7 @@ void LinkedList<T>::merge(LinkedList<T>* listB) {
             tempPtr = listB->getHead()->getNext();
             this->insert_before(listB->getHead(), movePtr);
             listB->setHead(tempPtr);
-            listB->setSize(listB->getSize--);
+            listB->setSize(listB->getSize() - 1);
         }
     }
 
@@ -106,7 +160,7 @@ void LinkedList<T>::merge(LinkedList<T>* listB) {
             *this+=*listB;
     }
 
-    listB->setCount(0);
+    listB->setSize(0);
 }
 
 template <typename T>
@@ -120,7 +174,7 @@ void LinkedList<T>::mergeSort(LinkedList<T>* topListPtr) {
     LinkedList<T>* fList = new LinkedList();
     LinkedList<T>* bList = new LinkedList();
     Node<T>* movPtr = topListPtr->getHead();
-    int halfSize = this->size()/2;
+    int halfSize = this->getSize()/2;
 
     if (halfSize == 0) {
         return;
@@ -132,23 +186,23 @@ void LinkedList<T>::mergeSort(LinkedList<T>* topListPtr) {
     }
 
     fList->setHead(topListPtr->getHead());
-    fList->setTail(movPtr->getPrevious());
-    fList->setCount(halfSize);
+    fList->setTail(movPtr->getPrev());
+    fList->setSize(halfSize);
 
     bList->setHead(movPtr);
     bList->setTail(topListPtr->getTail());
-    bList->setCount(halfSize);
-    if (topListPtr->size() % 2 == 1) {
-        bList->incCount();
+    bList->setSize(halfSize);
+    if (topListPtr->getSize() % 2 == 1) {
+        bList->setSize(bList->getSize() + 1);
     }
 
     fList->getTail()->setNext(nullptr);
-    bList->getHead()->setPrevious(nullptr);
+    bList->getHead()->setPrev(nullptr);
 
     fList->mergeSort();
     bList->mergeSort();
 
-    fList->mergeDicts(bList);
+    fList->merge(bList);
 
     this->setHead(fList->getHead());
     this->setTail(fList->getTail());

@@ -1,12 +1,8 @@
-#include <iostream>
-
-#include "day.h"
 #include "calendar.h"
-
-using namespace std;
 
 // Main function
 int main() {
-    initCalendar();
+    Calendar* openCalendar = new Calendar("test");
+    openCalendar->initCalendar();
     return 0;
 }

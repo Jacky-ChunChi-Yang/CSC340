@@ -56,6 +56,24 @@ void MeetingEvent::setAttendee(const string &newAttendee) {
     this->attendee = newAttendee;
 }
 
+void Event::printEvent() const {
+}
+
+void PersonalEvent::printEvent() const {
+    cout << "You have a meeting at location: " << this->getLocation() << endl;
+    struct tm tempDT = this->getDateTime();
+    time_t timestamp = mktime(&tempDT);
+    cout << "It begins at: " << ctime(&timestamp);
+}
+
+void MeetingEvent::printEvent() const {
+    struct tm tempDT = this->getDateTime();
+    time_t timestamp = mktime(&tempDT);
+    cout << "You have a meeting with: " << this->getAttendee() << endl
+         << "It begins at: " << ctime(&timestamp);
+}
+
+
 bool operator==(Event lhs, Event rhs) {
     return lhs.getName()==rhs.getName();
 }

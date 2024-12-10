@@ -17,11 +17,16 @@ template <typename T> class LinkedList {
         void setHead(Node<T>* newHead);
         void setTail(Node<T>* newTail);
         void setSize(const int &newSize);
+        void push_back(const T& data);
         void push_back(Node<T>* newNode);
         void operator+=(LinkedList<T> &rhs);
+        Node<T>* insert_before(T newData, Node<T>* knownNode);
+        void insert_before(Node<T>* newPrev, Node<T>* baseNode);
         void merge(LinkedList<T>* listB);
         void mergeSort();
         void mergeSort(LinkedList<T>* topListPtr);
 };
 
-#endif LINKEDLIST
+#include "linkedlist.hpp"
+
+#endif

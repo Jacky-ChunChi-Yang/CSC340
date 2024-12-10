@@ -56,4 +56,6 @@ bool operator<=(T lhs, Node<T> rhs);
 template <typename T>
 bool operator>=(T lhs, Node<T> rhs);
 
-#endif NODE
+#include "node.hpp"
+
+#endif
