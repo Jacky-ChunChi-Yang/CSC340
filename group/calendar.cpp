@@ -163,8 +163,8 @@ void Calendar::displayMonth() const {
     int month = this->getMonth();
     int year = this->getYear();
 
-    cout << "Calendar for " << getMonthName(month) << " " << year << endl;
-    cout << "Su  Mo  Tu  We  Th  Fr  Sa\n";
+    cout << endl << "Calendar for " << getMonthName(month) << " " << year << endl;
+    cout << "Su  Mo  Tu  We  Th  Fr  Sa" << endl;
 
     // Calculate starting weekday
     time_t t = time(nullptr);
@@ -274,7 +274,7 @@ void Calendar::addEvent() {
     cin.ignore();
     getline(cin, name);
 
-    if (this->getOpenList()->findEvent(name) == nullptr) {
+    if (this->getOpenList()->findEvent(name) != nullptr) {
         cout << "There is already an event with this name." << endl;
         return;
     }

@@ -17,16 +17,14 @@ void EventList::setName(const string &newName) {
 
 
 void EventList::displayEvents() {
-    Node<Event>* movPtr;
-    movPtr = this->getHead();
+    Node<Event>* movPtr = this->getHead();
     if (!movPtr) {
         cout << endl << "No events created." << endl << endl;
         return;
     };
     while (movPtr != nullptr) {
-        Event* evntPtr = movPtr->getData();
         cout << endl;
-        evntPtr->printEvent();
+        movPtr->getData()->printEvent();
         cout << endl;
         movPtr = movPtr->getNext();
     }
