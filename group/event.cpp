@@ -94,13 +94,23 @@ void MeetingEvent::printEvent() const {
 
 
 bool operator==(Event lhs, Event rhs) {
-    return lhs.getName()==rhs.getName();
+    struct tm tempTm;
+    tempTm = lhs.getDateTime();
+    time_t lts = mktime(&tempTm);
+    tempTm = rhs.getDateTime();
+    time_t rts = mktime(&tempTm);
+    return lts==rts;
 }
 bool operator!=(Event lhs, Event rhs) {
     return !(lhs==rhs);
 }
 bool operator<(Event lhs, Event rhs) {
-    return lhs.getName()<rhs.getName();
+    struct tm tempTm;
+    tempTm = lhs.getDateTime();
+    time_t lts = mktime(&tempTm);
+    tempTm = rhs.getDateTime();
+    time_t rts = mktime(&tempTm);
+    return lts<rts;
 }
 bool operator>(Event lhs, Event rhs) {
     return rhs<lhs;
