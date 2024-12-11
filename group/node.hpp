@@ -3,12 +3,15 @@
 using namespace std;
 
 template <typename T>
-Node<T>::Node(const T &data) {
-    this->setData(data);
+Node<T>::Node(T data) {
+    T* dataPtr = new T(data);
+    this->setData(dataPtr);
+    this->setPrev(nullptr);
+    this->setNext(nullptr);
 }
 
 template <typename T>
-T Node<T>::getData() const {
+T* Node<T>::getData() const {
     return this->data;
 }
 
@@ -23,7 +26,7 @@ Node<T>* Node<T>::getNext() const {
 }
 
 template <typename T>
-void Node<T>::setData(const T &newData) {
+void Node<T>::setData(T* newData) {
     this->data = newData;
 }
 

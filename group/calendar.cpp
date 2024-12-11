@@ -67,18 +67,23 @@ void Calendar::menu() {
             break;
         case CHANGE_YEAR:
             this->changeYear();
+            this->displayMonth();
             break;
         case CHANGE_MONTH:
             this->changeMonth();
+            this->displayMonth();
             break;
         case ADD_EVENT:
             this->addEvent();
+            this->displayMonth();
             break;
         case DELETE_EVENT:
             this->deleteEvent();
+            this->displayMonth();
             break;
         case EDIT_EVENT:
             this->editEvent();
+            this->displayMonth();
             break;
         case SORT_EVENTS:
             this->getOpenList()->mergeSort();
@@ -91,13 +96,11 @@ void Calendar::menu() {
         break;
     }
 
-    this->displayMonth();
     this->menu();
 }
 
 void Calendar::initCalendar() {
     /*
-    //***fix error here
     if (filesystem::is_empty(filePath)) {
         string listName;
 
@@ -118,8 +121,9 @@ void Calendar::initCalendar() {
     this->getOpenList()->setName(listName);
 
     this->displayMonth();
-
     this->menu();
+
+    cout << "Have a good day!";
 }
 
 EventList* Calendar::getOpenList() const {
@@ -182,8 +186,8 @@ void Calendar::displayMonth() const {
     Node<Event>* movPtr = this->getOpenList()->getHead();
     struct tm eventDateTime;
     while (movPtr != nullptr) {
-        eventDateTime = movPtr->getData().getDateTime();
-        if (eventDateTime.tm_year == this->getYear() && eventDateTime.tm_mon == this->getMonth()) {
+        eventDateTime = movPtr->getData()->getDateTime();
+        if (eventDateTime.tm_year == this->getYear()-1900 && eventDateTime.tm_mon == this->getMonth()) {
             daysWithEvents[eventDateTime.tm_mday-1] = true;
         }
         if (movPtr->getNext() != nullptr) {
@@ -285,8 +289,6 @@ void Calendar::addEvent() {
     cout << "What minute is your event?" << endl;
     cin >> minute;
 
-    cout << name << year << month << day << hour << minute << endl;
-
     struct tm datetime;
 
     datetime.tm_year = year - 1900; // Number of years since 1900
@@ -306,8 +308,9 @@ void Calendar::addEvent() {
             cout << "Who else will attend this meeting?" << endl;
             cin.ignore();
             getline(cin, attendees);
-            MeetingEvent* newMeeting = new MeetingEvent(name, datetime, attendees);
-            this->getOpenList()->push_back(*newMeeting);
+            //MeetingEvent* newMeeting = new MeetingEvent(name, datetime, attendees);
+            //this->getOpenList()->push_back(*newMeeting);
+            this->getOpenList()->push_back(MeetingEvent(name, datetime, attendees));
             break;
         }
         case PERSONAL: {
@@ -333,10 +336,12 @@ void Calendar::deleteEvent() {
 
 //complete this
 void Calendar::editEvent() {
-    string name = "";
+    string name;
     cout << "What event would you like to edit?" << endl;
     cin.ignore();
     getline(cin, name);
+
+    Event* chosenEvent = this->getOpenList()->findEvent(name)->getData();
 
     bool validInputs = false;
     int input;
@@ -354,22 +359,44 @@ void Calendar::editEvent() {
             cout << "Invalid input" << endl;
         }
         else {
-            validInputs == true;
+            validInputs = true;
         }
     }
 
-    Event* chosenEvent;
+    string newName;
+    int newInt;
+    struct tm dateTime = chosenEvent->getDateTime();
 
     switch (input) {
         case NAME:
+            cout << "What would you like to change the name of this event to?" << endl;
+            cin.ignore();
+            getline(cin, newName);
+            chosenEvent->setName(newName);
             break;
         case YEAR:
+            cout << "What would you like to change the year of this event to?" << endl;
+            cin >> newInt;
+            dateTime.tm_year = newInt - 1900;
+            chosenEvent->setDateTime(dateTime);
             break;
         case MONTH:
+            cout << "What would you like to change the month of this event to? (1-12)" << endl;
+            cin >> newInt;
+            dateTime.tm_mon = newInt - 1;
+            chosenEvent->setDateTime(dateTime);
             break;
         case DAY:
+            cout << "What would you like to change the day of this event to?" << endl;
+            cin >> newInt;
+            dateTime.tm_mday = newInt;
+            chosenEvent->setDateTime(dateTime);
             break;
         case TIME:
+            cout << "What would you like to change the hour of this event to?" << endl;
+            cin >> newInt;
+            dateTime.tm_hour = newInt;
+            chosenEvent->setDateTime(dateTime);
             break;
     }
 }

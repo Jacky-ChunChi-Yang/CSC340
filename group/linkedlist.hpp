@@ -53,14 +53,15 @@ void LinkedList<T>::setSize(const int &newSize) {
 
 template <typename T>
 void LinkedList<T>::push_back(const T& data) {
+    Node<T>* newNode = new Node<T>(data);
     if (this->getSize() > 0) {
-        this->getTail()->setNext(new Node<T>(data));
+        this->getTail()->setNext(newNode);
         this->getTail()->getNext()->setPrev(getTail());
         this->setTail(this->getTail()->getNext());
         this->setSize(this->getSize() + 1);
     }
     else {
-        this->setHead(new Node<T>(data));
+        this->setHead(newNode);
         this->setTail(this->getHead());
         this->getHead()->setPrev(nullptr);
         this->getHead()->setNext(nullptr);

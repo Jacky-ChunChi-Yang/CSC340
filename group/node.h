@@ -4,13 +4,13 @@
 template <typename T>
 class Node {
     private:
-        T data;
+        T* data;
         Node* prev;
         Node* next;
     public:
-        Node(const T &data);
-        T getData() const;
-        void setData(const T &newData);
+        Node(T data);
+        T* getData() const;
+        void setData(T* newData);
         Node* getPrev() const;
         void setPrev(Node<T>* newPrev);
         Node* getNext() const;
