@@ -42,7 +42,7 @@ void Node<T>::setNext(Node<T>* newNext) {
 
 template <typename T>
 bool operator==(Node<T> lhs, Node<T> rhs) {
-    return lhs.getData()==rhs.getData();
+    return *lhs.getData()==*rhs.getData();
 }
 template <typename T>
 bool operator!=(Node<T> lhs, Node<T> rhs) {
@@ -50,7 +50,7 @@ bool operator!=(Node<T> lhs, Node<T> rhs) {
 }
 template <typename T>
 bool operator<(Node<T> lhs, Node<T> rhs) {
-    return lhs.getData()<rhs.getData();
+    return *lhs.getData()<*rhs.getData();
 }
 template <typename T>
 bool operator>(Node<T> lhs, Node<T> rhs) {
@@ -67,7 +67,7 @@ bool operator>=(Node<T> lhs, Node<T> rhs) {
 
 template <typename T>
 bool operator==(Node<T> lhs, T rhs) {
-    return lhs.getData()==rhs;
+    return *lhs.getData()==rhs;
 }
 template <typename T>
 bool operator!=(Node<T> lhs, T rhs) {
@@ -75,11 +75,11 @@ bool operator!=(Node<T> lhs, T rhs) {
 }
 template <typename T>
 bool operator<(Node<T> lhs, T rhs) {
-    return lhs.getData()<rhs;
+    return *lhs.getData()<rhs;
 }
 template <typename T>
 bool operator>(Node<T> lhs, T rhs) {
-    return lhs.getData()>rhs;
+    return *lhs.getData()>rhs;
 }
 template <typename T>
 bool operator<=(Node<T> lhs, T rhs) {

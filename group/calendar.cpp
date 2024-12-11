@@ -87,6 +87,7 @@ void Calendar::menu() {
             break;
         case SORT_EVENTS:
             this->getOpenList()->mergeSort();
+            this->displayEvents();
             break;
         case SAVE_EVENTLIST:
             cout << "This feature is not yet implemented" << endl;
