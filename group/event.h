@@ -14,7 +14,6 @@ class Event {
         Event(const Event &oldEvent);
         Event(std::string eventName, struct tm datetime);
         virtual void printEvent() const;
-
         std::string getName() const;
         struct tm getDateTime() const;
         void setName(const std::string &newName);

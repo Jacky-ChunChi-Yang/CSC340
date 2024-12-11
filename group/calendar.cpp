@@ -274,6 +274,11 @@ void Calendar::addEvent() {
     cin.ignore();
     getline(cin, name);
 
+    if (this->getOpenList()->findEvent(name) == nullptr) {
+        cout << "There is already an event with this name." << endl;
+        return;
+    }
+
     //add current year default
     cout << "What year is your event?" << endl;
     cin >> year;
