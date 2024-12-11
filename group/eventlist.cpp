@@ -15,12 +15,8 @@ void EventList::setName(const string &newName) {
     this->name = newName;
 }
 
+
 void EventList::displayEvents() {
-    Node<Event>* movPtr = this->getHead();
-    while (movPtr) {
-        movPtr->getData().printEvent();
-        movPtr->setNext(movPtr->getNext());
-    }
 }
 
 Node<Event>* EventList::findEvent(const string &name) {

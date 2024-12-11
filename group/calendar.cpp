@@ -53,7 +53,7 @@ void Calendar::menu() {
 
     cin >> input;
 
-    if (input < 0 || input >LOAD_EVENTLIST) {
+    if (input < 0 || input > LOAD_EVENTLIST) {
         cout << "Invalid input" << endl;
         this->menu();
     }
@@ -64,6 +64,7 @@ void Calendar::menu() {
             return;
         case DISPLAY_EVENTS:
             this->displayEvents();
+            break;
         case CHANGE_YEAR:
             this->changeYear();
             break;
@@ -181,21 +182,17 @@ void Calendar::displayMonth() const {
     Node<Event>* movPtr = this->getOpenList()->getHead();
     struct tm eventDateTime;
     while (movPtr != nullptr) {
-        cout << "In while" << movPtr->getData().getName();
         eventDateTime = movPtr->getData().getDateTime();
         if (eventDateTime.tm_year == this->getYear() && eventDateTime.tm_mon == this->getMonth()) {
             daysWithEvents[eventDateTime.tm_mday-1] = true;
         }
         if (movPtr->getNext() != nullptr) {
-        cout << "In mov";
             movPtr = movPtr->getNext();
         }
         else {
-        cout << "In null";
             movPtr = nullptr;
         }
     }
-    delete movPtr;
 
     for (int i = 0; i < startDay; i++) cout << "    ";
     for (int day = 1; day <= daysInMonth; day++) {
@@ -287,6 +284,8 @@ void Calendar::addEvent() {
 
     cout << "What minute is your event?" << endl;
     cin >> minute;
+
+    cout << name << year << month << day << hour << minute << endl;
 
     struct tm datetime;
 

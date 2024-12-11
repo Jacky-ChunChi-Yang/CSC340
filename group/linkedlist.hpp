@@ -62,6 +62,8 @@ void LinkedList<T>::push_back(const T& data) {
     else {
         this->setHead(new Node<T>(data));
         this->setTail(this->getHead());
+        this->getHead()->setPrev(nullptr);
+        this->getHead()->setNext(nullptr);
         this->setSize(1);
     }
 }

@@ -30,8 +30,11 @@ void Event::setDateTime(const struct tm &newDateTime) {
     this->datetime = newDateTime;
 }
 
-PersonalEvent::PersonalEvent(string eventName, struct tm datetime, string location) {
-    Event(eventName, datetime);
+PersonalEvent::PersonalEvent() {
+
+}
+
+PersonalEvent::PersonalEvent(string eventName, struct tm datetime, string location) : Event(eventName, datetime) {
     this->setLocation(location);
 }
 
@@ -43,8 +46,11 @@ void PersonalEvent::setLocation(const string &newLocation) {
     this->location = newLocation;
 }
 
-MeetingEvent::MeetingEvent(string eventName, struct tm datetime, string attendee) {
-    Event(eventName, datetime);
+MeetingEvent::MeetingEvent() {
+    
+}
+
+MeetingEvent::MeetingEvent(string eventName, struct tm datetime, string attendee) : Event(eventName, datetime) {
     this->setAttendee(attendee);
 }
 
@@ -54,9 +60,6 @@ string MeetingEvent::getAttendee() const {
 
 void MeetingEvent::setAttendee(const string &newAttendee) {
     this->attendee = newAttendee;
-}
-
-void Event::printEvent() const {
 }
 
 void PersonalEvent::printEvent() const {
